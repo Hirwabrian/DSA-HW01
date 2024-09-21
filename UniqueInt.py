@@ -11,7 +11,7 @@ class UniqueInt:
 
     def __init__(self):
 
-        input_dir = os.path.join(os.getcwd(), 'sample_inputs')
+        input_dir = os.path.join(os.getcwd(), "sample_inputs")
         self.filename = input("Please enter the filename (with extension): ")
         self.filepath = os.path.join(input_dir, self.filename)
         
@@ -28,7 +28,7 @@ class UniqueInt:
         Returns:
             minval (int): The smallest integer found in the file.
         """
-        minval = float('inf')
+        minval = float("inf")
         with open(self.filepath, 'r') as f:
             for line in f:
                 for word in line.split():
@@ -45,7 +45,7 @@ class UniqueInt:
         Returns:
             maxval (int): The largest integer found in the file.
         """
-        maxval = float('-inf')
+        maxval = float("-inf")
         with open(self.filepath, 'r') as f:
             for line in f:
                 for word in line.split():
@@ -79,7 +79,7 @@ class UniqueInt:
 
         
         savedir = os.path.join(os.getcwd(), 'sample_results')
-        if not os.path.exists(savedir):# check if sample_results' directory exists
+        if not os.path.exists(savedir):
             try:
                 os.makedirs(savedir)
                 print(f"Directory '{savedir}' created.")
