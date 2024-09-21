@@ -1,13 +1,20 @@
 #!/usr/bin/python3
 
 import os
+import time
+import tracemalloc 
 
 class UniqueInt:
+    """
+    A class to find the unique integers in a file, sort them, and save the result.
+    """
+
     def __init__(self):
-        #fetches the input file pah from user input
+
         input_dir = os.path.join(os.getcwd(), 'sample_inputs')
         self.filename = input("Please enter the filename (with extension): ")
         self.filepath = os.path.join(input_dir, self.filename)
+        
         if os.path.isfile(self.filepath):
             print(f"File '{self.filename}' is found in {input_dir}.")
         else:
@@ -15,6 +22,12 @@ class UniqueInt:
             exit()
 
     def minval(self):
+        """
+        Find the minimum integer in the file.
+
+        Returns:
+            minval (int): The smallest integer found in the file.
+        """
         minval = float('inf')
         with open(self.filepath, 'r') as f:
             for line in f:
@@ -26,6 +39,12 @@ class UniqueInt:
         return minval
 
     def maxval(self):
+        """
+        Find the maximum integer in the file.
+
+        Returns:
+            maxval (int): The largest integer found in the file.
+        """
         maxval = float('-inf')
         with open(self.filepath, 'r') as f:
             for line in f:
@@ -37,6 +56,13 @@ class UniqueInt:
         return maxval
 
     def sorting(self):
+        """
+        Sort the unique integers in the file and save the sorted list in 'sample_results' directory.
+        Also tracks the memory usage and execution time of the process.
+        """
+        start_time = time.time()
+        tracemalloc.start()
+
         minval = self.minval()
         maxval = self.maxval()
         converter = -(minval)
@@ -51,9 +77,9 @@ class UniqueInt:
                         i = num + converter
                         array[i] = True
 
-        #Saves the results in a specific directory
+        
         savedir = os.path.join(os.getcwd(), 'sample_results')
-        if not os.path.exists(savedir):
+        if not os.path.exists(savedir):# check if sample_results' directory exists
             try:
                 os.makedirs(savedir)
                 print(f"Directory '{savedir}' created.")
@@ -61,7 +87,6 @@ class UniqueInt:
                 print(f"Error creating directory '{savedir}': {e}")
                 exit()
 
-        # Save the result file in the sample_results directory
         save = os.path.basename(self.filename) + "_results.txt"
         save_file = os.path.join(savedir, save)
 
@@ -73,5 +98,12 @@ class UniqueInt:
 
         print(f"Results saved in: {save_file}")
 
-# Run the sorting process
+        end_time = time.time()
+        memory = tracemalloc.get_traced_memory()
+
+        print(f"Memory usage: {memory} MB")
+        print(f"Execution time: {end_time - start_time:.4f} seconds")
+
+        tracemalloc.stop()
+
 UniqueInt().sorting()
